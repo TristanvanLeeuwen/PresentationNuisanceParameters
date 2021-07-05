@@ -14593,24 +14593,67 @@ $$\|\nabla F(u,\overline{\alpha}(u)) - \nabla F(u,\widetilde{\alpha}(u))\| \leq 
 </div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Tikhonov-regularisation">Tikhonov regularisation<a class="anchor-link" href="#Tikhonov-regularisation">&#182;</a></h2><p>Given $K \in \mathbb{R}^{m\times n}$,</p>
+<h2 id="Tikhonov-regularisation">Tikhonov regularisation<a class="anchor-link" href="#Tikhonov-regularisation">&#182;</a></h2><p>Given $K \in \mathbb{R}^{m\times n}$ and $f^\delta = Ku_{\text{true}} + \epsilon$ with $\epsilon \sim N(0,\sigma^2)$, solve</p>
 $$\min_{u,\alpha,\beta} \alpha \|Ku - f^\delta\|_2^2 + \beta \|Lu\|_2^2 - m \log \alpha - n\log\beta.$$<ul>
-<li>$\overline{\alpha}(u) = m/ \|Ku - f^\delta\|_2^2$, $\overline{\beta}(u) = n/ \|Lu\|_2^2.$</li>
+<li>$\overline{\alpha}(u) = m\|Ku - f^\delta\|_2^{-2}$, $\overline{\beta}(u) = n\|Lu\|_2^{-2}$ (solve for $u$ with BFGS)</li>
+<li>$\overline{u}(\alpha,\beta) = \left(K^*\!K + (\beta/\alpha)L^*\!L\right)^{-1}K^*f^\delta$ (solve for $(\alpha,\beta)$ with Nelder-Mead)</li>
 </ul>
 
 </div>
 </div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Covariance-estimation">Covariance estimation<a class="anchor-link" href="#Covariance-estimation">&#182;</a></h2>
+<p><img src="./figures/Tikh_u_hat.png" alt=""></p>
+
 </div>
 </div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Robust-fitting">Robust fitting<a class="anchor-link" href="#Robust-fitting">&#182;</a></h2><ul>
+<p><img src="./figures/Tikh_theta_hat.png" alt=""></p>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><img src="figures/Tikh_convergence.png" alt=""></p>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Covariance-estimation">Covariance estimation<a class="anchor-link" href="#Covariance-estimation">&#182;</a></h2><p>Non-linear seismic inversion of multi-experiment data.</p>
+<ul>
+<li>$F(u,\Sigma) = m\log|\Sigma| + \sum_{i=1}^m\|K(u)q_i - f_i^\delta\|_{\Sigma^{-1}}^2.$</li>
+<li>Use sample-covariance at each iteration</li>
+<li>Can use further tricks to get low-rank approximation of $\Sigma$</li>
+</ul>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><img src="./figures/experiment5_1.png" alt=""></p>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><img src="./figures/experiment4_2.png" alt=""></p>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Robust-fitting^[1]">Robust fitting^[1]<a class="anchor-link" href="#Robust-fitting^[1]">&#182;</a></h2><p>Tomograpraphic image reconstruction from data with outliers:</p>
+<ul>
 <li>$F(u,\alpha) = \sum_{i=1}^m \log\left(1 + \alpha(Ku-f^\delta)_i^2\right) -2m\log(\alpha).$</li>
 <li>$G(u) = \text{TV}(u)$</li>
+<li>Solve for $\alpha$ using scalar minimisation method</li>
 </ul>
+<div class="footnotes">
+<hr>
+<ol></ol>
+</div>
 
 </div>
 </div></section><section>

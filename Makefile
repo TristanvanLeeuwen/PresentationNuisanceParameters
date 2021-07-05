@@ -4,5 +4,5 @@ html: Presentation.ipynb
 	cp -r figures ./html
 website: html
 	ghp-import -n -p -f html
-	open https://tristanvanleeuwen.github.io/Presentation/Presentation.html
+	open https://tristanvanleeuwen.github.io/PresentationNuisanceParameters/Presentation.html
 	
