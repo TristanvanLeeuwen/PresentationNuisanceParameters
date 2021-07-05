@@ -14458,36 +14458,217 @@ div.jp-InputArea {
 <div class="slides"><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Title">Title<a class="anchor-link" href="#Title">&#182;</a></h1>
-</div>
-</div></section><section>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Template for <code>Reveal.js</code> presentation based on a Jupyter notebook.</p>
-
+<h1 id="Estimating-nuisance-parameters-in-inverse-problems">Estimating nuisance parameters in inverse problems<a class="anchor-link" href="#Estimating-nuisance-parameters-in-inverse-problems">&#182;</a></h1>
 </div>
 </div><div class="fragment">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>To use it</p>
-<ol>
-<li>Use this repository as a template for your presentation</li>
-<li>Modify <code>Makefile</code> to reflect the name of your repository and username and desired template</li>
-<li>Modify <code>Presentation.ipynb</code></li>
-<li>run <code>make html</code> to generate the <code>.html</code> file</li>
-<li>run <code>make website</code> to serve the presenation on <code>https://&lt;username&gt;.github.io/&lt;reponame&gt;/Presentation.html</code></li>
-</ol>
+<p>Based on</p>
+<ul>
+<li><p><a href="https://iopscience.iop.org/article/10.1088/0266-5611/28/11/115016">Estimating nuisance parameters in inverse problems</a>.
+A.Y. Aravkin and T. van Leeuwen. Inverse Problems (28:11)</p>
+</li>
+<li><p><a href="https://epubs.siam.org/doi/abs/10.1137/20M1348650">Variable Projection for NonSmooth Problems</a>. T. van Leeuwen and A.Y. Aravkin. SIAM J. Sci. Comput. (accepted)</p>
+</li>
+</ul>
 
 </div>
-</div></div></section></section><section><section>
+</div></div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><img src="figures/example1.png" alt=""></p>
+<p>(Motivation)</p>
 
 </div>
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Overview">Overview<a class="anchor-link" href="#Overview">&#182;</a></h1><ul>
+<li>General formulation</li>
+<li>Variable projection</li>
+<li>Examples</li>
+<li>Wrap-up</li>
+</ul>
+
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="General-formulation">General formulation<a class="anchor-link" href="#General-formulation">&#182;</a></h1>
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>MAP estimation for inverse problems can be generally formulated as</p>
+$$\min_u F(u) + G(u),$$<p>with $F(u) = -\log \pi_{\text{data}}(u)$ and  $G(u) = -\log \pi_{\text{prior}}(u)$.</p>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>The densities often include parameters $\theta$ (mean, variance, ...). This leads to</p>
+$$\min_{u,\theta} F(u,\theta) + G(u,\theta) + H(\theta),$$<p>with $H(\theta) = -\log \pi_{\text{hyper}}(\theta)$.</p>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<blockquote><p><strong>Example: <em>Extended least-squares:</em></strong>
+$$\min_{u,\Sigma} m \log |\Sigma| + \sum_{i=1}^m \|K(u) - f^\delta\|_{\Sigma^{-1}}^2.$$
+Has a closed-form solution for fixed $u$:
+$$\Sigma = \frac{1}{m}\sum_{i}^m (K(u) - f^\delta)(K(u) - f^\delta)^T.$$</p>
+</blockquote>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<blockquote><p><strong>Example: <em>Robust data-fitting:</em></strong>
+$$\min_{u,\sigma^2} n\log\sigma + \sum_{i=1}^n \log\left(1 + \frac{r_i(u)^2}{\sigma^2}\right), \quad r = K(u) - f.$$</p>
+</blockquote>
+
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Variable-projection">Variable projection<a class="anchor-link" href="#Variable-projection">&#182;</a></h1>
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Often, the nuisance parameters separate, and we can write</p>
+$$\min_u \underbrace{\min_\alpha F(u,\alpha)}_{\overline{F}(u)} + \underbrace{\min_\beta G(u,\beta)}_{\overline{G}(u)}.$$
+</div>
+</div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>and apply a proximal-gradient algorithm</p>
+$$u_{k+1} = \text{prox}_{\lambda \overline{G}} \left(u_k - \lambda \nabla \overline{F}(u)\right).$$
+</div>
+</div></div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Derivative-formula">Derivative formula<a class="anchor-link" href="#Derivative-formula">&#182;</a></h2><p>Assuming that $\nabla_u F$ and $\nabla_\alpha F$ are Lipschitz-continuous and $F$ is $\mu-$ strongly convex in $\alpha$ for all $u$;</p>
+
+</div>
+</div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<ul>
+<li>$\overline{\alpha}(u) = \text{arg}\min_\alpha F(u,\alpha)$ is Lipschitz continuous </li>
+<li>$\nabla \overline{F}(u) = \left.\nabla_u F(u,\alpha)\right|_{\alpha = \overline{\alpha}(u)}.$</li>
+<li>an approximate minimiser $\widetilde{\alpha}(u)$ yields an approximate gradient with</li>
+</ul>
+$$\|\nabla F(u,\overline{\alpha}(u)) - \nabla F(u,\widetilde{\alpha}(u))\| \leq L_{u\alpha} \|\overline{\alpha}(u) -\widetilde{\alpha}(u)\|.$$
+</div>
+</div></div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Proximal-operator">Proximal operator<a class="anchor-link" href="#Proximal-operator">&#182;</a></h2>$$\text{prox}_{\lambda \overline{G}}\left(v\right) = \text{arg}\min_{u,\beta} \textstyle{\frac{1}{2}}\|u - v\|_2^2 + G(u,\beta).$$<ul>
+<li>still a proximal operator as long as $\overline{G}$ is convex</li>
+<li>solution may be available in closed-form</li>
+<li>approximate solution is ok, as long as $\textstyle{\frac{1}{2}}\|\widetilde{u} - v\|_2^2 + \overline{G}(\widetilde{u}) \leq \delta + \min_{u} \textstyle{\frac{1}{2}}\|u - v\|_2^2 + \overline{G}(u).$</li>
+</ul>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Convergence-results">Convergence results<a class="anchor-link" href="#Convergence-results">&#182;</a></h2><p>Convergence of proximal gradient with inexact gradients ($\epsilon_k$) and inexact proximal operators ($\delta_k$)<sup class="footnote-ref" id="fnref-1"><a href="#fn-1">1</a></sup>:</p>
+<ul>
+<li>sublinear ($\mathcal{O}(1/k)$) convergence rate for <em>convex</em> problems if $\{\epsilon_k\}$ and $\{\delta_k\}$ are summable[^1]</li>
+<li>linear convergenge if $\{\epsilon_k\}$ and $\{\delta_k\}$ decrease linearly</li>
+</ul>
+<div class="footnotes">
+<hr>
+<ol><li id="fn-1"><p>Schmidt, Mark, Nicolas Le Roux, and Francis Bach. "Convergence rates of inexact proximal-gradient methods for convex optimization." NeurIps (2011).<a href="#fnref-1" class="footnote">&#8617;</a></p></li>
+</ol>
+</div>
+
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Examples">Examples<a class="anchor-link" href="#Examples">&#182;</a></h1>
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Tikhonov-regularisation">Tikhonov regularisation<a class="anchor-link" href="#Tikhonov-regularisation">&#182;</a></h2><p>Given $K \in \mathbb{R}^{m\times n}$ and $f^\delta = Ku_{\text{true}} + \epsilon$ with $\epsilon \sim N(0,\sigma^2)$, solve</p>
+$$\min_{u,\alpha,\beta} \alpha \|Ku - f^\delta\|_2^2 + \beta \|Lu\|_2^2 - m \log \alpha - n\log\beta.$$<ul>
+<li>$\overline{\alpha}(u) = m\|Ku - f^\delta\|_2^{-2}$, $\overline{\beta}(u) = n\|Lu\|_2^{-2}$ (solve for $u$ with BFGS)</li>
+<li>$\overline{u}(\alpha,\beta) = \left(K^*\!K + (\beta/\alpha)L^*\!L\right)^{-1}K^*f^\delta$ (solve for $(\alpha,\beta)$ with Nelder-Mead)</li>
+</ul>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><img src="./figures/Tikh_u_hat.png" alt=""></p>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><img src="./figures/Tikh_theta_hat.png" alt=""></p>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><img src="figures/Tikh_convergence.png" alt=""></p>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Covariance-estimation">Covariance estimation<a class="anchor-link" href="#Covariance-estimation">&#182;</a></h2><p>Non-linear seismic inversion of multi-experiment data.</p>
+<ul>
+<li>$F(u,\Sigma) = m\log|\Sigma| + \sum_{i=1}^m\|K(u)q_i - f_i^\delta\|_{\Sigma^{-1}}^2.$</li>
+<li>Use sample-covariance at each iteration</li>
+<li>Can use further tricks to get low-rank approximation of $\Sigma$</li>
+</ul>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><img src="./figures/experiment5_1.png" alt=""></p>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><img src="./figures/experiment4_2.png" alt=""></p>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Robust-fitting^[1]">Robust fitting^[1]<a class="anchor-link" href="#Robust-fitting^[1]">&#182;</a></h2><p>Tomograpraphic image reconstruction from data with outliers:</p>
+<ul>
+<li>$F(u,\alpha) = \sum_{i=1}^m \log\left(1 + \alpha(Ku-f^\delta)_i^2\right) -2m\log(\alpha).$</li>
+<li>$G(u) = \text{TV}(u)$</li>
+<li>Solve for $\alpha$ using scalar minimisation method</li>
+</ul>
+<div class="footnotes">
+<hr>
+<ol></ol>
+</div>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><img src="./figures/studentst1.png" alt=""></p>
+
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Wrap-up">Wrap-up<a class="anchor-link" href="#Wrap-up">&#182;</a></h1><ul>
+<li>...</li>
+<li>...</li>
+</ul>
 
 </div>
 </div></section></section>
