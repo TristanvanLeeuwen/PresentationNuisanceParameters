@@ -14476,7 +14476,7 @@ A.Y. Aravkin and T. van Leeuwen. Inverse Problems (28:11)</p>
 </div></div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>(Motivation)</p>
+<p><img src="./figures/intro.png" alt=""></p>
 
 </div>
 </div></section></section><section><section>
@@ -14513,9 +14513,7 @@ $$\min_{u,\theta} F(u,\theta) + G(u,\theta) + H(\theta),$$<p>with $H(\theta) = -
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <blockquote><p><strong>Example: <em>Extended least-squares:</em></strong>
-$$\min_{u,\Sigma} m \log |\Sigma| + \sum_{i=1}^m \|K(u) - f^\delta\|_{\Sigma^{-1}}^2.$$
-Has a closed-form solution for fixed $u$:
-$$\Sigma = \frac{1}{m}\sum_{i}^m (K(u) - f^\delta)(K(u) - f^\delta)^T.$$</p>
+$$\min_{u,\Sigma} m \log |\Sigma| + \sum_{i=1}^m \|K(u) - f\|_{\Sigma^{-1}}^2.$$</p>
 </blockquote>
 
 </div>
@@ -14523,8 +14521,28 @@ $$\Sigma = \frac{1}{m}\sum_{i}^m (K(u) - f^\delta)(K(u) - f^\delta)^T.$$</p>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <blockquote><p><strong>Example: <em>Robust data-fitting:</em></strong>
-$$\min_{u,\sigma^2} n\log\sigma + \sum_{i=1}^n \log\left(1 + \frac{r_i(u)^2}{\sigma^2}\right), \quad r = K(u) - f.$$</p>
+$$\min_{u,\sigma^2} m\log\sigma + \sum_{i=1}^m \log\left(1 + \frac{r_i(u)^2}{\sigma^2}\right), \quad r(u) = K(u) - f.$$</p>
 </blockquote>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<blockquote><p><strong>Example: <em>Quantile estimtaion:</em></strong>
+$$\min_{u,\tau\in [0,1]} m\log\left(\frac{1}{\tau} + \frac{1}{1-\tau}\right) + \sum_{i=1}^m \ell_{\tau}(r_i(u)),$$
+where $\ell_{\tau}$ denotes the pinball loss.</p>
+</blockquote>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Eliminate $u$ and formulate</p>
+$$\min_{\theta} \left(\min_u F(u,\theta) + G(u,\theta) + H(\theta)\right).$$<ul>
+<li>Evaluation for given $\theta$ requires solution of inverse problem</li>
+<li>Results in non-linear problem in $\theta$ with expensive function evaluations</li>
+<li>Can possibly use surrogate modelling</li>
+</ul>
 
 </div>
 </div></section></section><section><section>
@@ -14535,8 +14553,8 @@ $$\min_{u,\sigma^2} n\log\sigma + \sum_{i=1}^n \log\left(1 + \frac{r_i(u)^2}{\si
 </div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Often, the nuisance parameters separate, and we can write</p>
-$$\min_u \underbrace{\min_\alpha F(u,\alpha)}_{\overline{F}(u)} + \underbrace{\min_\beta G(u,\beta)}_{\overline{G}(u)}.$$
+<p>Assume that the nuisance parameters separate;</p>
+$$\min_u \left(\underbrace{\min_\alpha F(u,\alpha)}_{\overline{F}(u)} + \underbrace{\min_\beta G(u,\beta)}_{\overline{G}(u)}\right).$$
 </div>
 </div><div class="fragment">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14556,17 +14574,25 @@ $$u_{k+1} = \text{prox}_{\lambda \overline{G}} \left(u_k - \lambda \nabla \overl
 <ul>
 <li>$\overline{\alpha}(u) = \text{arg}\min_\alpha F(u,\alpha)$ is Lipschitz continuous </li>
 <li>$\nabla \overline{F}(u) = \left.\nabla_u F(u,\alpha)\right|_{\alpha = \overline{\alpha}(u)}.$</li>
-<li>an approximate minimiser $\widetilde{\alpha}(u)$ yields an approximate gradient with</li>
+<li>An approximate minimiser $\widetilde{\alpha}(u)$ yields an approximate gradient with</li>
 </ul>
 $$\|\nabla F(u,\overline{\alpha}(u)) - \nabla F(u,\widetilde{\alpha}(u))\| \leq L_{u\alpha} \|\overline{\alpha}(u) -\widetilde{\alpha}(u)\|.$$
+</div>
+</div></div><div class="fragment">
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<ul>
+<li>The results are slightly stronger and include, for example, the quantile estimation case which includes a non-smooth term $I_{[0,1]}(\tau)$.</li>
+</ul>
+
 </div>
 </div></div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Proximal-operator">Proximal operator<a class="anchor-link" href="#Proximal-operator">&#182;</a></h2>$$\text{prox}_{\lambda \overline{G}}\left(v\right) = \text{arg}\min_{u,\beta} \textstyle{\frac{1}{2}}\|u - v\|_2^2 + G(u,\beta).$$<ul>
-<li>still a proximal operator as long as $\overline{G}$ is convex</li>
-<li>solution may be available in closed-form</li>
-<li>approximate solution is ok, as long as $\textstyle{\frac{1}{2}}\|\widetilde{u} - v\|_2^2 + \overline{G}(\widetilde{u}) \leq \delta + \min_{u} \textstyle{\frac{1}{2}}\|u - v\|_2^2 + \overline{G}(u).$</li>
+<li>Still a proximal operator as long as $\overline{G}$ is convex</li>
+<li>Solution may be available in closed-form</li>
+<li>Approximate solution is ok, as long as $\min_u \textstyle{\frac{1}{2}}\|u - v\|_2^2 + G(u,\widetilde{\beta}(u)) \leq \delta + \min_{u} \textstyle{\frac{1}{2}}\|u - v\|_2^2 + \overline{G}(u).$</li>
 </ul>
 
 </div>
@@ -14575,7 +14601,7 @@ $$\|\nabla F(u,\overline{\alpha}(u)) - \nabla F(u,\widetilde{\alpha}(u))\| \leq 
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Convergence-results">Convergence results<a class="anchor-link" href="#Convergence-results">&#182;</a></h2><p>Convergence of proximal gradient with inexact gradients ($\epsilon_k$) and inexact proximal operators ($\delta_k$)<sup class="footnote-ref" id="fnref-1"><a href="#fn-1">1</a></sup>:</p>
 <ul>
-<li>sublinear ($\mathcal{O}(1/k)$) convergence rate for <em>convex</em> problems if $\{\epsilon_k\}$ and $\{\delta_k\}$ are summable[^1]</li>
+<li>sublinear ($\mathcal{O}(1/k)$) convergence rate for <em>convex</em> problems if $\{\epsilon_k\}$ and $\{\delta_k\}$ are summable</li>
 <li>linear convergenge if $\{\epsilon_k\}$ and $\{\delta_k\}$ decrease linearly</li>
 </ul>
 <div class="footnotes">
@@ -14583,6 +14609,16 @@ $$\|\nabla F(u,\overline{\alpha}(u)) - \nabla F(u,\widetilde{\alpha}(u))\| \leq 
 <ol><li id="fn-1"><p>Schmidt, Mark, Nicolas Le Roux, and Francis Bach. "Convergence rates of inexact proximal-gradient methods for convex optimization." NeurIps (2011).<a href="#fnref-1" class="footnote">&#8617;</a></p></li>
 </ol>
 </div>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Implementation">Implementation<a class="anchor-link" href="#Implementation">&#182;</a></h2><ul>
+<li>Closed-form solution may be available</li>
+<li>Can be solved to desired accuracy when $\theta$ represents only a few variables</li>
+<li>Able to re-use existing code for gradient computations and optimisation</li>
+</ul>
 
 </div>
 </div></section></section><section><section>
@@ -14593,8 +14629,8 @@ $$\|\nabla F(u,\overline{\alpha}(u)) - \nabla F(u,\widetilde{\alpha}(u))\| \leq 
 </div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Tikhonov-regularisation">Tikhonov regularisation<a class="anchor-link" href="#Tikhonov-regularisation">&#182;</a></h2><p>Given $K \in \mathbb{R}^{m\times n}$ and $f^\delta = Ku_{\text{true}} + \epsilon$ with $\epsilon \sim N(0,\sigma^2)$, solve</p>
-$$\min_{u,\alpha,\beta} \alpha \|Ku - f^\delta\|_2^2 + \beta \|Lu\|_2^2 - m \log \alpha - n\log\beta.$$<ul>
+<h2 id="Tikhonov-regularisation">Tikhonov regularisation<a class="anchor-link" href="#Tikhonov-regularisation">&#182;</a></h2><p>Given $K \in \mathbb{R}^{m\times n}$ and $f = Ku_{\text{true}} + \epsilon$ with $\epsilon \sim N(0,\sigma^2)$, solve</p>
+$$\min_{u,\alpha,\beta} \alpha \|Ku - f\|_2^2 + \beta \|Lu\|_2^2 - m \log \alpha - n\log\beta.$$<ul>
 <li>$\overline{\alpha}(u) = m\|Ku - f^\delta\|_2^{-2}$, $\overline{\beta}(u) = n\|Lu\|_2^{-2}$ (solve for $u$ with BFGS)</li>
 <li>$\overline{u}(\alpha,\beta) = \left(K^*\!K + (\beta/\alpha)L^*\!L\right)^{-1}K^*f^\delta$ (solve for $(\alpha,\beta)$ with Nelder-Mead)</li>
 </ul>
@@ -14623,7 +14659,7 @@ $$\min_{u,\alpha,\beta} \alpha \|Ku - f^\delta\|_2^2 + \beta \|Lu\|_2^2 - m \log
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Covariance-estimation">Covariance estimation<a class="anchor-link" href="#Covariance-estimation">&#182;</a></h2><p>Non-linear seismic inversion of multi-experiment data.</p>
 <ul>
-<li>$F(u,\Sigma) = m\log|\Sigma| + \sum_{i=1}^m\|K(u)q_i - f_i^\delta\|_{\Sigma^{-1}}^2.$</li>
+<li>$F(u,\Sigma) = m\log|\Sigma| + \sum_{i=1}^m\|K(u)q_i - f_i\|_{\Sigma^{-1}}^2.$</li>
 <li>Use sample-covariance at each iteration</li>
 <li>Can use further tricks to get low-rank approximation of $\Sigma$</li>
 </ul>
@@ -14646,9 +14682,9 @@ $$\min_{u,\alpha,\beta} \alpha \|Ku - f^\delta\|_2^2 + \beta \|Lu\|_2^2 - m \log
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Robust-fitting^[1]">Robust fitting^[1]<a class="anchor-link" href="#Robust-fitting^[1]">&#182;</a></h2><p>Tomograpraphic image reconstruction from data with outliers:</p>
 <ul>
-<li>$F(u,\alpha) = \sum_{i=1}^m \log\left(1 + \alpha(Ku-f^\delta)_i^2\right) -2m\log(\alpha).$</li>
+<li>$F(u,\sigma) = \sum_{i=1}^m \log\left(1 + (Ku-f)_i^2/\sigma^2\right) + m\log(\sigma^2).$</li>
 <li>$G(u) = \text{TV}(u)$</li>
-<li>Solve for $\alpha$ using scalar minimisation method</li>
+<li>Solve for $\sigma$ using scalar minimisation method</li>
 </ul>
 <div class="footnotes">
 <hr>
@@ -14666,8 +14702,15 @@ $$\min_{u,\alpha,\beta} \alpha \|Ku - f^\delta\|_2^2 + \beta \|Lu\|_2^2 - m \log
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="Wrap-up">Wrap-up<a class="anchor-link" href="#Wrap-up">&#182;</a></h1><ul>
-<li>...</li>
-<li>...</li>
+<li>Algorithmic framework for estimating hyper parameters in inverse problems</li>
+<li>Allows for approximate inner solves and re-use of code for fixed hyperparameters</li>
+<li>An adaptive algorithm to select the accuracy of the inner solves can be devised.</li>
+</ul>
+<p>Other relevant issues:</p>
+<ul>
+<li>Marginalisation of $\theta$</li>
+<li>Choice of Hyper-prior</li>
+<li>Regularising properties and convergence rates (as noise vanishes)</li>
 </ul>
 
 </div>
