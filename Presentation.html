@@ -14513,7 +14513,7 @@ $$\min_{u,\theta} F(u,\theta) + G(u,\theta) + H(\theta),$$<p>with $H(\theta) = -
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <blockquote><p><strong>Example: <em>Extended least-squares:</em></strong>
-$$\min_{u,\Sigma} m \log |\Sigma| + \sum_{i=1}^m \|K(u) - f\|_{\Sigma^{-1}}^2.$$</p>
+$$\min_{u,\Sigma} m \log |\Sigma| + \sum_{i=1}^m \|r_i(u)\|_{\Sigma^{-1}}^2, \quad r(u) = K(u) - f.$$</p>
 </blockquote>
 
 </div>
@@ -14521,7 +14521,7 @@ $$\min_{u,\Sigma} m \log |\Sigma| + \sum_{i=1}^m \|K(u) - f\|_{\Sigma^{-1}}^2.$$
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <blockquote><p><strong>Example: <em>Robust data-fitting:</em></strong>
-$$\min_{u,\sigma^2} m\log\sigma + \sum_{i=1}^m \log\left(1 + \frac{r_i(u)^2}{\sigma^2}\right), \quad r(u) = K(u) - f.$$</p>
+$$\min_{u,\sigma} m\log\sigma + \sum_{i=1}^m \log\left(1 + \frac{\|r_i(u)\|_2^2}{\sigma^2}\right).$$</p>
 </blockquote>
 
 </div>
@@ -14539,7 +14539,6 @@ where $\ell_{\tau}$ denotes the pinball loss.</p>
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Eliminate $u$ and formulate</p>
 $$\min_{\theta} \left(\min_u F(u,\theta) + G(u,\theta) + H(\theta)\right).$$<ul>
-<li>Evaluation for given $\theta$ requires solution of inverse problem</li>
 <li>Results in non-linear problem in $\theta$ with expensive function evaluations</li>
 <li>Can possibly use surrogate modelling</li>
 </ul>
@@ -14559,7 +14558,8 @@ $$\min_u \left(\underbrace{\min_\alpha F(u,\alpha)}_{\overline{F}(u)} + \underbr
 </div><div class="fragment">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>and apply a proximal-gradient algorithm</p>
+<p>and apply a gradient</p>
+$$u_{k+1} = u_k - \lambda \left(\nabla \overline{F}(u) + \nabla \overline{G}(u)\right).$$<p>or proximal-gradient algorithm</p>
 $$u_{k+1} = \text{prox}_{\lambda \overline{G}} \left(u_k - \lambda \nabla \overline{F}(u)\right).$$
 </div>
 </div></div></section><section>
@@ -14576,13 +14576,13 @@ $$u_{k+1} = \text{prox}_{\lambda \overline{G}} \left(u_k - \lambda \nabla \overl
 <li>$\nabla \overline{F}(u) = \left.\nabla_u F(u,\alpha)\right|_{\alpha = \overline{\alpha}(u)}.$</li>
 <li>An approximate minimiser $\widetilde{\alpha}(u)$ yields an approximate gradient with</li>
 </ul>
-$$\|\nabla F(u,\overline{\alpha}(u)) - \nabla F(u,\widetilde{\alpha}(u))\| \leq L_{u\alpha} \|\overline{\alpha}(u) -\widetilde{\alpha}(u)\|.$$
+$$\|\nabla_u F(u,\overline{\alpha}(u)) - \nabla_u F(u,\widetilde{\alpha}(u))\| \leq L_{u\alpha} \|\overline{\alpha}(u) -\widetilde{\alpha}(u)\|.$$
 </div>
 </div></div><div class="fragment">
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <ul>
-<li>The results are slightly stronger and include, for example, the quantile estimation case which includes a non-smooth term $I_{[0,1]}(\tau)$.</li>
+<li>The results are slightly more general and include, for example, the quantile estimation case which includes a non-smooth term $I_{[0,1]}(\alpha)$.</li>
 </ul>
 
 </div>
@@ -14592,17 +14592,27 @@ $$\|\nabla F(u,\overline{\alpha}(u)) - \nabla F(u,\widetilde{\alpha}(u))\| \leq 
 <h2 id="Proximal-operator">Proximal operator<a class="anchor-link" href="#Proximal-operator">&#182;</a></h2>$$\text{prox}_{\lambda \overline{G}}\left(v\right) = \text{arg}\min_{u,\beta} \textstyle{\frac{1}{2}}\|u - v\|_2^2 + G(u,\beta).$$<ul>
 <li>Still a proximal operator as long as $\overline{G}$ is convex</li>
 <li>Solution may be available in closed-form</li>
-<li>Approximate solution is ok, as long as $\min_u \textstyle{\frac{1}{2}}\|u - v\|_2^2 + G(u,\widetilde{\beta}(u)) \leq \delta + \min_{u} \textstyle{\frac{1}{2}}\|u - v\|_2^2 + \overline{G}(u).$</li>
+<li>Approximate solution is ok, as long as $\textstyle{\frac{1}{2}}\|\widetilde{u} - v\|_2^2 + G(\widetilde{u},\widetilde{\beta}) \leq \delta + \min_{u} \textstyle{\frac{1}{2}}\|u - v\|_2^2 + \overline{G}(u).$</li>
 </ul>
 
 </div>
 </div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Convergence-results">Convergence results<a class="anchor-link" href="#Convergence-results">&#182;</a></h2><p>Convergence of proximal gradient with inexact gradients ($\epsilon_k$) and inexact proximal operators ($\delta_k$)<sup class="footnote-ref" id="fnref-1"><a href="#fn-1">1</a></sup>:</p>
+<h2 id="Convergence-results">Convergence results<a class="anchor-link" href="#Convergence-results">&#182;</a></h2><p>Convergence of proximal gradient with inexact gradients ($\epsilon_k$):</p>
+<ul>
+<li>Convergence when $\epsilon_k \leq C \|u_{k+1} - u_k\|$ with $C &lt; \overline{L}/2$.</li>
+<li>Combining various error bounds leads to an adaptive stopping criterion for the inner iterations</li>
+</ul>
+
+</div>
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Convergence rates of proximal gradient with inexact gradients ($\epsilon_k$) and inexact proximal operators ($\delta_k$)<sup class="footnote-ref" id="fnref-1"><a href="#fn-1">1</a></sup>:</p>
 <ul>
 <li>sublinear ($\mathcal{O}(1/k)$) convergence rate for <em>convex</em> problems if $\{\epsilon_k\}$ and $\{\delta_k\}$ are summable</li>
-<li>linear convergenge if $\{\epsilon_k\}$ and $\{\delta_k\}$ decrease linearly</li>
+<li>linear convergence for stongly convex $\overline{F}$ if $\{\epsilon_k\}$ and $\{\delta_k\}$ decrease linearly</li>
 </ul>
 <div class="footnotes">
 <hr>
