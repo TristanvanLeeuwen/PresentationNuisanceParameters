@@ -14574,6 +14574,7 @@ $$u_{k+1} = \text{prox}_{\lambda \overline{G}} \left(u_k - \lambda \nabla \overl
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <ul>
 <li>$\overline{\alpha}(u) = \text{arg}\min_\alpha F(u,\alpha)$ is Lipschitz continuous </li>
+<li>$\nabla\overline{F}$ is Lipschitz continuous</li>
 <li>$\nabla \overline{F}(u) = \left.\nabla_u F(u,\alpha)\right|_{\alpha = \overline{\alpha}(u)}.$</li>
 <li>An approximate minimiser $\widetilde{\alpha}(u)$ yields an approximate gradient with</li>
 </ul>
@@ -14691,7 +14692,7 @@ $$\min_{u,\alpha,\beta} \alpha \|Ku - f\|_2^2 + \beta \|Lu\|_2^2 - m \log \alpha
 </div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Robust-fitting^[1]">Robust fitting^[1]<a class="anchor-link" href="#Robust-fitting^[1]">&#182;</a></h2><p>Tomograpraphic image reconstruction from data with outliers:</p>
+<h2 id="Robust-fitting1">Robust fitting<sup class="footnote-ref" id="fnref-1"><a href="#fn-1">1</a></sup><a class="anchor-link" href="#Robust-fitting1">&#182;</a></h2><p>Tomograpraphic image reconstruction from data with outliers:</p>
 <ul>
 <li>$F(u,\sigma) = \sum_{i=1}^m \log\left(1 + (Ku-f)_i^2/\sigma^2\right) + m\log(\sigma^2).$</li>
 <li>$G(u) = \text{TV}(u)$</li>
@@ -14699,7 +14700,8 @@ $$\min_{u,\alpha,\beta} \alpha \|Ku - f\|_2^2 + \beta \|Lu\|_2^2 - m \log \alpha
 </ul>
 <div class="footnotes">
 <hr>
-<ol></ol>
+<ol><li id="fn-1"><p>Kazantsev, D., Bleichrodt, F., Van Leeuwen, T., Kaestner, A., Withers, P., Batenburg, K. J., &amp; Lee, P. (2017). A novel tomographic reconstruction method based on the robust Student’s t function for suppressing data outliers. IEEE Transactions on Computational Imaging, 1–1. <a href="https://doi.org/10.1109/TCI.2017.2694607">https://doi.org/10.1109/TCI.2017.2694607</a><a href="#fnref-1" class="footnote">&#8617;</a></p></li>
+</ol>
 </div>
 
 </div>
